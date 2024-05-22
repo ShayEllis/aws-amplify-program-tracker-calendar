@@ -5,15 +5,15 @@ import './index.css'
 
 // Setup AWS Amplify Backend
 import { Amplify } from 'aws-amplify'
-// import outputs from '../amplify_outputs.json'
-// console.log(outputs)
+import outputs from '../amplify_outputs.json'
+console.log(outputs)
 
 // Amplify.configure(outputs)
 
 // // Use backend API
-// import { generateClient } from 'aws-amplify/api'
+import { generateClient } from 'aws-amplify/api'
 
-// const client = generateClient()
+const client = generateClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
