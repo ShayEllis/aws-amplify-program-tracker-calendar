@@ -1,10 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+// Use backend API
+import { generateClient } from 'aws-amplify/api'
+const client = generateClient()
+
 function App() {
   const [count, setCount] = useState(0)
+
+  const testFetch = async () => {
+    const result = await client.models.Calendar.list()
+    console.log(result)
+  }
+  
+  useEffect(() => {
+    testFetch()
+  }, [])
 
   return (
     <>

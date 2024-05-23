@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -7,21 +7,28 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  Calendar: a
     .model({
-      content: a.string(),
+      dateString: a.string().required(),
+      diet: a.boolean().default(false),
+      noAlcoholOrCheatMeal: a.boolean().default(false),
+      indoorWorkout: a.boolean().default(false),
+      outdoorWorkout: a.boolean().default(false),
+      oneGallonOfWater: a.boolean().default(false),
+      progressPicture: a.boolean().default(false),
+      read: a.boolean().default(false),
     })
     .authorization((allow) => [allow.guest()]),
-});
+})
 
-export type Schema = ClientSchema<typeof schema>;
+export type Schema = ClientSchema<typeof schema>
 
 export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'iam',
   },
-});
+})
 
 /*== STEP 2 ===============================================================
 Go to your frontend source code. From your client-side code, generate a
