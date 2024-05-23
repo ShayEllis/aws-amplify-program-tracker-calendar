@@ -1,47 +1,89 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useReducer, useEffect, useState } from 'react'
+import { Calendar } from './components/calendar/calendar'
+import { Stats } from './components/stats/stats'
 import './App.css'
+import { reducer, initialState } from './reducers/appReducer'
+import {
+  CalendarContext,
+  CalendarDispatchContext,
+} from './context/calendarContexts'
+import { calendarServer } from './utils/calendarServer'
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { purple } from '@mui/material/colors'
 
-// Use backend API
-import { generateClient } from 'aws-amplify/api'
-const client = generateClient()
+// Connect AWS Amplify backend
+import { Amplify } from 'aws-amplify'
+import outputs from '../amplify_outputs.json'
+Amplify.configure(outputs)
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: '#4E6E58',
+    },
+  },
+})
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Manages all calendar state
+  const [state, dispatch] = useReducer(reducer, initialState)
+  // Spinner displays when data is being fetched from the server
+  const [fetchingData, setFetchingData] = useState(true)
 
-  const testFetch = async () => {
-    const result = await client.models.Calendar.list()
-    console.log(result)
-  }
-  
+  // Fetch exsisting data from the server
   useEffect(() => {
-    testFetch()
+    calendarServer
+      .fetchCalendarDayData()
+      .then((response) => {
+        if (response) {
+          dispatch({ type: 'app/loadCalenderDayData', payload: response })
+          setFetchingData(false)
+        }
+      })
+      .catch((e) => {
+        console.error(`Failed to update calendar state - ${e.message}`)
+      })
   }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <CalendarContext.Provider value={state}>
+      <CalendarDispatchContext.Provider value={dispatch}>
+        <ThemeProvider theme={theme}>
+          {fetchingData && (
+            <Backdrop
+              sx={{
+                color: '#AFB3F7',
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+              }}
+              open={true}>
+              <CircularProgress color='inherit' size={85} thickness={2} />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Typography variant='caption' component='div' color='inherit'>
+                  Loading...
+                </Typography>
+              </Box>
+            </Backdrop>
+          )}
+          <div className='bodyContainer'>
+            <Calendar />
+            <Stats />
+          </div>
+        </ThemeProvider>
+      </CalendarDispatchContext.Provider>
+    </CalendarContext.Provider>
   )
 }
 

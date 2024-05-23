@@ -1,0 +1,50 @@
+.calendarDataContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: 1s;
+}
+.dayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 550px) {
+  .dayHeader {
+    font-size: 0.75rem;
+  }
+}
+.calendarDate {
+  top: 0;
+  left: 2px;
+}
+.dayProgressContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn;
+  animation-duration: 1s;
+}
+.dayProgress {
+  color: var(--calendar-day-text);
+  top: 0;
+  left: 22px;
+}
+.dayBody {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  gap: 2%;
+}
+.dayIcon {
+  display: inline-block;
+  width: 20%;
+  height: auto;
+  animation: jackInTheBox;
+  animation-duration: 1s;
+  transition: all 2s;
+}

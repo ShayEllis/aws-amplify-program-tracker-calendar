@@ -1,0 +1,24 @@
+.calendarCellContainer {
+  border: 1px dashed var(--main-text);
+}
+.calendarCell {
+  padding: 1px;
+  aspect-ratio: 1 / 1;
+}
+.calendarCell:hover {
+  background-color: var(--calendar-day-highlight);
+  opacity: 0.8;
+}
+.currentDate {
+  color: var(--current-day);
+}
+.futureDate {
+  pointer-events: none;
+}
+.notCurrentMonth {
+  opacity: 0.25;
+  pointer-events: none;
+}
+.calenderCellClicked {
+  background-color: lightblue;
+}
