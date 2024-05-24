@@ -79,19 +79,22 @@ export const Modal = ({ showConfetti }) => {
   // Sends data to the server when the modal is closed
   const handleModalClose = () => {
     const inputValues = state.dayData[state.selectedDay]
-    const allInputValuesFalse = Object.values(inputValues).every(
-      (value) => value === false
-    )
+    const allInputValuesFalse = Object.values(inputValues).every((value) => {
+      if (typeof value !== 'boolean') return true
+      return value === false
+    })
 
     if (state.exsistingDayData) {
       if (allInputValuesFalse) {
-        calendarServer.deleteCalendarDayData(state.dayData) // ***need to get ID*** id is being filtered out somewhere when clearing from modal
-        console.log(state.dayData)
+        calendarServer.deleteCalendarDayData(
+          state.dayData[state.selectedDay].id
+        )
         dispatch({
           type: 'modal/deleteCalendarDayData',
           payload: state.selectedDay,
         })
       } else {
+        // ****** Add another check to only update if inputs changed? ******
         calendarServer.updateCalendarDayData(state.selectedDay, inputValues)
       }
     } else {
@@ -109,11 +112,13 @@ export const Modal = ({ showConfetti }) => {
         })
       }
     }
-    if (
-      Object.values(state.dayData[state.selectedDay]).filter(
-        (inputVal) => inputVal === true
-      ).length === 7
-    ) {
+
+    // Trigger confetti
+    const numInputsTrue = Object.values(
+      state.dayData[state.selectedDay]
+    ).filter((inputVal) => inputVal === true).length
+
+    if (numInputsTrue === 7) {
       showConfetti()
     }
     dispatch({ type: 'modal/removeSelectedDay' })

@@ -66,6 +66,7 @@ export const reducer = (state, action) => {
         dayData: {
           ...state.dayData,
           [action.payload]: {
+            ...state.dayData[action.payload],
             diet: false,
             noAlcoholOrCheatMeal: false,
             indoorWorkout: false,

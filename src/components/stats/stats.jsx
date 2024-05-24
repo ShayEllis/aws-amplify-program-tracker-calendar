@@ -15,7 +15,10 @@ export const Stats = () => {
   const completedDays = Object.keys(state.dayData).filter((dateString) => {
     if (dateString === getDayIdentifier(state.todaysDate)) return false
     const inputValues = Object.values(state.dayData[dateString])
-    return inputValues.every((value) => value === true)
+    return inputValues.every((value) => {
+      if (typeof value !== 'boolean') return true
+      return value === true
+    })
   })
   const currentStreak = getCurrentStreak(completedDays, state.todaysDate)
 

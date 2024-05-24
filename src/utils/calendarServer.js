@@ -4,9 +4,9 @@ const client = generateClient()
 
 export const calendarServer = {
   async createCalendarDayData(data) {
+    console.log('create')
  
     const {data: calendarDayData, errors} = await client.models.Calendar.create(data)
-    console.log('create', calendarDayData, errors)
 
     // const options = {
     //   method: 'POST',
@@ -23,6 +23,7 @@ export const calendarServer = {
   },
   subscribeToCalendarQuery(setStateFunc) {
     const action = {type: 'app/loadCalenderDayData', payload: []}
+    console.log('subscribed to Calendar')
 
     return client.models.Calendar.observeQuery().subscribe({
       next: ({items, isSynced}) => {
@@ -44,9 +45,9 @@ export const calendarServer = {
   async updateCalendarDayData(dateString, data) {
     const dayToUpdate = {
       dateString,
-      content: data
+      ...data
     }
-    console.log(dayToUpdate)
+    console.log('update', dayToUpdate)
     // const {data: updatedCalendarData, errors} = await client.models.Calendar.update(dayToUpdate)
     // console.log('update', updatedCalendarData, errors)
 
@@ -64,10 +65,9 @@ export const calendarServer = {
     // }
   },
   async deleteCalendarDayData(dayId) {
+    console.log('delete')
     const dayToDelete = {id: dayId} // **may need to use auto generated ID instead**
-    console.log(dayToDelete)
     const response = await client.models.Calendar.delete(dayToDelete)
-    console.log(response)
 
     // const options = {
     //   method: 'DELETE',
