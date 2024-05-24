@@ -7,18 +7,15 @@ import {
   CalendarContext,
   CalendarDispatchContext,
 } from './context/calendarContexts'
-import { calendarServer } from './utils/calendarServer'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { purple } from '@mui/material/colors'
+import { calendarServer } from './utils/calendarServer'
 
-// Connect AWS Amplify backend
-import { Amplify } from 'aws-amplify'
-import outputs from '../amplify_outputs.json'
-Amplify.configure(outputs)
+
 
 const theme = createTheme({
   palette: {
@@ -39,6 +36,12 @@ function App() {
 
   // Fetch exsisting data from the server
   useEffect(() => {
+    /* May be better option, subscribes to real time data updates
+
+    const subId = calendarServer.subscribeToCalendarQuery(dispatch) 
+    return subId.unsubscribe()
+    */
+
     calendarServer
       .fetchCalendarDayData()
       .then((response) => {

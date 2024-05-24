@@ -85,8 +85,8 @@ export const Modal = ({ showConfetti }) => {
 
     if (state.exsistingDayData) {
       if (allInputValuesFalse) {
-        calendarServer.deleteCalendarDayData(state.selectedDay)
-
+        calendarServer.deleteCalendarDayData(state.dayData) // ***need to get ID*** id is being filtered out somewhere when clearing from modal
+        console.log(state.dayData)
         dispatch({
           type: 'modal/deleteCalendarDayData',
           payload: state.selectedDay,
