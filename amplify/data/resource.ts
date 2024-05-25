@@ -9,7 +9,7 @@ and "delete" any "Todo" records.
 const schema = a.schema({
   Calendar: a
     .model({
-      dateString: a.string().required(),
+      dateString: a.id().required(),
       diet: a.boolean().default(false),
       noAlcoholOrCheatMeal: a.boolean().default(false),
       indoorWorkout: a.boolean().default(false),
@@ -18,6 +18,7 @@ const schema = a.schema({
       progressPicture: a.boolean().default(false),
       read: a.boolean().default(false),
     })
+    .identifier(['dateString'])
     .authorization((allow) => [allow.guest()]),
 })
 

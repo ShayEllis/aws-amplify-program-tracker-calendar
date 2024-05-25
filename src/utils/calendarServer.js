@@ -4,7 +4,7 @@ const client = generateClient()
 
 export const calendarServer = {
   async createCalendarDayData(data) {
-    console.log('create')
+    console.log('create', data)
  
     const {data: calendarDayData, errors} = await client.models.Calendar.create(data)
 
@@ -47,9 +47,8 @@ export const calendarServer = {
       dateString,
       ...data
     }
-    console.log('update', dayToUpdate)
-    // const {data: updatedCalendarData, errors} = await client.models.Calendar.update(dayToUpdate)
-    // console.log('update', updatedCalendarData, errors)
+    const {data: updatedCalendarData, errors} = await client.models.Calendar.update(dayToUpdate)
+    console.log('update', updatedCalendarData, errors)
 
     // const options = {
     //   method: 'PUT',
@@ -64,9 +63,9 @@ export const calendarServer = {
     //   console.error(e.message)
     // }
   },
-  async deleteCalendarDayData(dayId) {
-    console.log('delete')
-    const dayToDelete = {id: dayId} // **may need to use auto generated ID instead**
+  async deleteCalendarDayData(dateString) {
+    const dayToDelete = {dateString}
+    console.log('delete', dayToDelete)
     const response = await client.models.Calendar.delete(dayToDelete)
 
     // const options = {

@@ -87,7 +87,7 @@ export const Modal = ({ showConfetti }) => {
     if (state.exsistingDayData) {
       if (allInputValuesFalse) {
         calendarServer.deleteCalendarDayData(
-          state.dayData[state.selectedDay].id
+          state.selectedDay
         )
         dispatch({
           type: 'modal/deleteCalendarDayData',
@@ -266,6 +266,6 @@ export const Modal = ({ showConfetti }) => {
   )
 }
 
-Modal.proptypes = {
+Modal.propTypes = {
   showConfetti: PropTypes.func.isRequired,
 }

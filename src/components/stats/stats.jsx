@@ -4,7 +4,6 @@ import './stats.css'
 import { ProgressChart } from '../progressChart/progressChart'
 import Button from '@mui/material/Button'
 import { getCurrentStreak, getDayIdentifier } from '../../utils/utils'
-import { hide } from '@popperjs/core'
 
 export const Stats = () => {
   const state = useContext(CalendarContext)
