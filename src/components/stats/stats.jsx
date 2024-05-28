@@ -8,7 +8,9 @@ import { getCurrentStreak, getDayIdentifier } from '../../utils/utils'
 export const Stats = () => {
   const state = useContext(CalendarContext)
   const [hideChart, setHideChart] = useState(false)
-  const goal = 75 // ****** MAKE EDITABLE? ******
+  const goal = 75 // ****** ALLOW USER TO EDIT? ******
+
+  console.log('stat loaded')
 
   // ****** Would useMemo() help here? ******
   const completedDays = Object.keys(state.dayData).filter((dateString) => {
