@@ -107,7 +107,7 @@ export const Calendar = () => {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tableBoday'>
           {Array(weeksInCurrentMonth)
             .fill(null)
             .map((week, idx) => (
