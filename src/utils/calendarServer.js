@@ -21,7 +21,7 @@ export const calendarServer = {
       if (errors) throw new Error(errors[0].message)
       return calendarDayData
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   },
   async updateCalendarDayData(dateString, data) {
