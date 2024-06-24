@@ -13,7 +13,7 @@ const schema = a.schema({
       read: a.boolean().default(false),
     })
     .identifier(['dateString'])
-    .authorization((allow) => [allow.guest()]), // switch to allow.owner() after enabling authentication
+    .authorization((allow) => [allow.owner()]),
 })
 
 export type Schema = ClientSchema<typeof schema>
