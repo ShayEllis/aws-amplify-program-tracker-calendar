@@ -1,6 +1,9 @@
+// React
 import { useRef, useEffect, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
+// Chart Library
 import { Chart } from 'chart.js/auto'
+// Styles
 import './progressChart.css'
 
 export const ProgressChart = ({ goal, currentStreak }) => {

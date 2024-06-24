@@ -1,11 +1,16 @@
+// React
 import { useRef, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
+// Styles
 import './modal.css'
+// State
 import {
   CalendarContext,
   CalendarDispatchContext,
 } from '../../context/calendarContexts'
+// Utils
 import { calendarServer } from '../../utils/calendarServer'
+// Material UI
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'

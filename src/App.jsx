@@ -1,21 +1,25 @@
+// React Router
 import { useReducer, useEffect, useState } from 'react'
+// Components
 import { Calendar } from './components/calendar/calendar'
 import { Stats } from './components/stats/stats'
-import './App.css'
+// Styles
+import './app.css'
+// State
 import { reducer, initialState } from './reducers/appReducer'
 import {
   CalendarContext,
   CalendarDispatchContext,
 } from './context/calendarContexts'
+// Material UI
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { purple } from '@mui/material/colors'
+// Utils
 import { calendarServer } from './utils/calendarServer'
-
-
 
 const theme = createTheme({
   palette: {
@@ -90,4 +94,4 @@ function App() {
   )
 }
 
-export default App
+export { App }

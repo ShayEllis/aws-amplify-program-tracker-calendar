@@ -1,6 +1,9 @@
+// React
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
+// Components
 import { CalendarDay } from '../calendarDay/calendarDay'
+// Utils
 import { getDayIdentifier } from '../../utils/utils'
 
 export const CalendarWeek = ({ days, week }) => {

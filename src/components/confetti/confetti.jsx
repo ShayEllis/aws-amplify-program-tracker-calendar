@@ -1,5 +1,7 @@
+// React
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+// Confetti Library
 import ReactConfetti from 'react-confetti'
 
 export const Confetti = ({ onComplete }) => {

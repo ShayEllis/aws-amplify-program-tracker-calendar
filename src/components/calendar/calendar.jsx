@@ -1,14 +1,20 @@
+// React
 import { useContext, useState } from 'react'
+// Icons
 import Arrow from '../../assets/arrow.png'
+// Styles
 import './calendar.css'
+// Utils
 import { generateCalendarDays } from '../../utils/utils'
+// Components
 import { CalendarWeek } from '../calendarWeek/calendarWeek'
 import { Modal } from '../modal/modal'
+import { Confetti } from '../confetti/confetti'
+// State
 import {
   CalendarContext,
   CalendarDispatchContext,
 } from '../../context/calendarContexts'
-import { Confetti } from '../confetti/confetti'
 
 export const Calendar = () => {
   // Main calendar state and dispatch function

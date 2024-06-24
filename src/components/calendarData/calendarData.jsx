@@ -1,6 +1,9 @@
+// React
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+// Styles
 import './calendarData.css'
+// Icons
 import {
   dietIcon,
   indoorWorkoutIcon,

@@ -1,8 +1,14 @@
-import { useContext, useState, useMemo, useEffect, useRef } from 'react'
+// React
+import { useContext, useState, useEffect, useRef } from 'react'
+// State
 import { CalendarContext } from '../../context/calendarContexts'
+// Styles
 import './stats.css'
+// Components
 import { ProgressChart } from '../progressChart/progressChart'
+// Meterial UI
 import Button from '@mui/material/Button'
+// Utils
 import { getCurrentStreak, getDayIdentifier } from '../../utils/utils'
 
 export const Stats = () => {
@@ -43,14 +49,14 @@ export const Stats = () => {
         variant='contained'
         disableElevation
         onClick={() => setHideChart(!hideChart)}>
-        {hideChart ? '+': '-'}
+        {hideChart ? '+' : '-'}
       </Button>
       <div
         ref={chartContainerRef}
         className='chartContainer'
         style={
           hideChart
-            ? {transform: 'scale(0)', marginBottom: `-${chartHeight}px`}
+            ? { transform: 'scale(0)', marginBottom: `-${chartHeight}px` }
             : undefined
         }>
         <ProgressChart goal={goal} currentStreak={currentStreak} />
