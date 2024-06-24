@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Components
 import { CalendarDay } from '../calendarDay/calendarDay'
 // Utils
-import { getDayIdentifier } from '../../utils/utils'
+import { getDayIdentifier } from '../../../utils/utils'
 
 export const CalendarWeek = ({ days, week }) => {
   // Create an array of days in this specific week

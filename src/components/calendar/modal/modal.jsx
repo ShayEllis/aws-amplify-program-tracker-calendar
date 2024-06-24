@@ -7,9 +7,9 @@ import './modal.css'
 import {
   CalendarContext,
   CalendarDispatchContext,
-} from '../../context/calendarContexts'
+} from '../../../context/calendarContexts'
 // Utils
-import { calendarServer } from '../../utils/calendarServer'
+import { calendarServer } from '../../../utils/calendarServer'
 // Material UI
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'

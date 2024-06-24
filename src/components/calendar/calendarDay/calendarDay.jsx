@@ -5,12 +5,12 @@ import PropTypes from 'prop-types'
 import './calendarDay.css'
 // Utils
 import { CalendarData } from '../calendarData/calendarData'
-import { getDayIdentifier } from '../../utils/utils'
+import { getDayIdentifier } from '../../../utils/utils'
 // State
 import {
   CalendarContext,
   CalendarDispatchContext,
-} from '../../context/calendarContexts'
+} from '../../../context/calendarContexts'
 
 export const CalendarDay = ({ day }) => {
   // Main calendar state and dispatch function

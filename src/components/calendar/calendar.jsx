@@ -7,8 +7,8 @@ import './calendar.css'
 // Utils
 import { generateCalendarDays } from '../../utils/utils'
 // Components
-import { CalendarWeek } from '../calendarWeek/calendarWeek'
-import { Modal } from '../modal/modal'
+import { CalendarWeek } from './calendarWeek/calendarWeek'
+import { Modal } from './modal/modal'
 import { Confetti } from '../confetti/confetti'
 // State
 import {

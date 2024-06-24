@@ -12,7 +12,7 @@ import {
   progressPictureIcon,
   readIcon,
   waterGallonIcon,
-} from '../../assets/icons'
+} from '../../../assets/icons'
 
 export const CalendarData = ({ date, dayData }) => {
   // Create new opject and copy dayData defore destructuring, this prevents an error when dayData is undefined

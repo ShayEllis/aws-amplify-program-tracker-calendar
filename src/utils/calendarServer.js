@@ -7,6 +7,7 @@ export const calendarServer = {
     try {
       const { data: calendarDayData, errors } =
         await client.models.Calendar.create(data)
+
       if (errors) throw new Error(errors[0].message)
       console.log('Day data created: ', calendarDayData)
     } catch (e) {
@@ -17,7 +18,7 @@ export const calendarServer = {
     try {
       const { data: calendarDayData, errors } =
         await client.models.Calendar.list()
-      console.log('fetch', calendarDayData, errors)
+
       if (errors) throw new Error(errors[0].message)
       return calendarDayData
     } catch (e) {

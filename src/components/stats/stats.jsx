@@ -5,7 +5,7 @@ import { CalendarContext } from '../../context/calendarContexts'
 // Styles
 import './stats.css'
 // Components
-import { ProgressChart } from '../progressChart/progressChart'
+import { ProgressChart } from './progressChart/progressChart'
 // Meterial UI
 import Button from '@mui/material/Button'
 // Utils
