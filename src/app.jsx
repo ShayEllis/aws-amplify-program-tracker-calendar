@@ -1,8 +1,9 @@
-// React Router
+// React
 import { useReducer, useEffect, useState } from 'react'
+// React Router
+import { Outlet, useOutletContext } from 'react-router-dom'
 // Components
-import { Calendar } from './components/calendar/calendar'
-import { Stats } from './components/stats/stats'
+import { Navbar } from './components/navbar/navbar'
 // Styles
 import './app.css'
 // State
@@ -37,6 +38,8 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   // Spinner displays when data is being fetched from the server
   const [fetchingData, setFetchingData] = useState(true)
+  // SignOut function passed from AWS Authenticator
+  const signOut = useOutletContext()
 
   // Fetch exsisting data from the server
   useEffect(() => {
@@ -85,8 +88,8 @@ function App() {
             </Backdrop>
           )}
           <div className='bodyContainer'>
-            <Calendar />
-            <Stats />
+            <Navbar signOut={signOut} />
+            <Outlet />
           </div>
         </ThemeProvider>
       </CalendarDispatchContext.Provider>

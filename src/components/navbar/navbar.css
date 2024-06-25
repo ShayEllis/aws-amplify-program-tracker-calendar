@@ -1,0 +1,12 @@
+#navbar {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  background-color: lightgrey;
+}
+.navLink {
+  color: black;
+  text-decoration: none;
+}
+.navLink:active {
+  color: gray;
+}

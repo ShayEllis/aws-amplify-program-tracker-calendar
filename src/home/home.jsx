@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <>
-      <h1>Fantasy Football League Tracker</h1>
+      <h1>Hard Program Tracker</h1>
       <button size='lg' onClick={handleSignIn}>
         Sign in
       </button>

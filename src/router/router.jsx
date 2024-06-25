@@ -3,6 +3,8 @@ import { createBrowserRouter } from 'react-router-dom'
 // Components
 import { App } from '../app'
 import { Home } from '../home/home'
+import { Calendar } from '../components/calendar/calendar'
+import { Settings } from '../components/settings/settings'
 import { RouteError } from '../components/routeError/routeError'
 import { SignIn } from '../components/signIn/signIn'
 
@@ -17,9 +19,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/main',
-        element: <App />
-      }
-    ]
+        element: <App />,
+        children: [
+          {
+            index: true,
+            element: <Calendar />,
+          },
+          {
+            path: 'settings',
+            element: <Settings />,
+          },
+        ],
+      },
+    ],
   },
 ])
 
