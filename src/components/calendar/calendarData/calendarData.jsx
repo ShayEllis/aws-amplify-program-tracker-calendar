@@ -37,6 +37,7 @@ export const CalendarData = ({ date, dayData }) => {
         Object.values(dayData).filter((inputVal) => inputVal === true).length
       )
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     diet,
     indoorWorkout,

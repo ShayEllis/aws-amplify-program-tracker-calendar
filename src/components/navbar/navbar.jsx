@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 // React Router
 import { Link, useNavigate } from 'react-router-dom'
 // Material UI
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
@@ -39,32 +41,27 @@ const Navbar = ({ signOut }) => {
   }
 
   return (
-    <header id='navbar'>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          textAlign: 'center',
-          ml: 1,
-          mr: 1,
-        }}>
-        <Link to='/main' className='navLink'>
-          <Typography>Calendar</Typography>
-        </Link>
-
-        <Tooltip title='Account Settings'>
-          <IconButton
-            size='small'
-            aria-controls={tooltipOpen ? 'account-menu' : undefined}
-            aria-expanded={tooltipOpen ? 'true' : undefined}
-            aria-haspopup='true'
-            onClick={handleSettingsClick}>
-            <Avatar>S</Avatar>
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Menu
+      <AppBar elevation={0}>
+        <Toolbar variant='dense' sx={{ justifyContent: 'space-between'}}>
+          <Box>
+            <Link to='/main' className='navLink'>
+              <Typography>Calendar</Typography>
+            </Link>
+          </Box>
+          <Tooltip title='Open Settings'>
+            <IconButton
+              size='small'
+              aria-controls={tooltipOpen ? 'account-menu' : undefined}
+              aria-expanded={tooltipOpen ? 'true' : undefined}
+              aria-haspopup='true'
+              onClick={handleSettingsClick}>
+              <Avatar sx={{ width: 32, height: 32, bgcolor: '#4E6E58' }}>
+                S
+              </Avatar>
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+        <Menu
         anchorEl={anchorElement}
         id='account-menu'
         open={tooltipOpen}
@@ -85,7 +82,8 @@ const Navbar = ({ signOut }) => {
           Sign out
         </MenuItem>
       </Menu>
-    </header>
+      </AppBar>
+
   )
 }
 

@@ -18,14 +18,14 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { purple } from '@mui/material/colors'
+import { grey } from '@mui/material/colors'
 // Utils
 import { calendarServer } from './utils/calendarServer'
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: purple[500],
+      main: grey[500],
     },
     secondary: {
       main: '#4E6E58',
