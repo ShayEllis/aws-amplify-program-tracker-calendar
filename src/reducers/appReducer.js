@@ -8,7 +8,7 @@ export const initialState = {
   dayData: {},
   selectedDay: null,
   exsistingDayData: null,
-  settings: {}
+  settings: {},
 }
 
 // Reducers
@@ -18,6 +18,9 @@ export const reducer = (state, action) => {
       const formatedServerData = convertServerData(action.payload)
 
       return { ...state, dayData: { ...state.dayData, ...formatedServerData } }
+    }
+    case 'app/setUsername': {
+      return { ...state, username: action.payload }
     }
     case 'calendar/previousMonth': {
       return {
@@ -99,6 +102,12 @@ export const reducer = (state, action) => {
       const newDayData = { ...state.dayData }
       delete newDayData[action.payload]
       return { ...state, dayData: newDayData }
+    }
+    case 'settings/setDefault': {
+      const defaultSettings = {
+        
+      }
+      return { ...state }
     }
     default:
       throw new Error(`Unknown action: ${action.type}`)

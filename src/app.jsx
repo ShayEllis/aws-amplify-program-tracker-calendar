@@ -21,6 +21,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
 // Utils
 import { calendarServer } from './utils/calendarServer'
+import { calendarAuth } from './utils/calendarAuth'
 
 const theme = createTheme({
   palette: {
@@ -41,26 +42,30 @@ function App() {
   // SignOut function passed from AWS Authenticator
   const signOut = useOutletContext()
 
-  // Fetch exsisting data from the server
   useEffect(() => {
-    /* May be better option, subscribes to real time data updates
+    // Fetch exsisting data from the server
+    calendarServer.fetchCalendarDayData().then((response) => {
+      if (response) {
+        dispatch({ type: 'app/loadCalenderDayData', payload: response })
+        setFetchingData(false)
+      }
 
-    const subId = calendarServer.subscribeToCalendarQuery(dispatch) 
-    return subId.unsubscribe()
-    */
-
-    calendarServer
-      .fetchCalendarDayData()
-      .then((response) => {
-        if (response) {
-          dispatch({ type: 'app/loadCalenderDayData', payload: response })
-          setFetchingData(false)
-        }
+      // Get current username
+      calendarAuth.fetchUsername().then((username) => {
+        if (username) dispatch({ type: 'app/setUsername', payload: username})
       })
-      .catch((e) => {
-        console.error(`Failed to update calendar state - ${e.message}`)
-      })
+    })
   }, [])
+
+  useEffect(() => {
+    console.log(state.username)
+    if (state.username) {
+      // Check for existing calendar settings and set defaults if undefined
+      calendarServer.fetchCalendarSettings(state.username).then((response) => {
+        console.log(response)
+      })
+    }
+  }, [state.username])
 
   return (
     <CalendarContext.Provider value={state}>
@@ -88,7 +93,7 @@ function App() {
             </Backdrop>
           )}
           <div className='bodyContainer'>
-            <Navbar signOut={signOut} />
+            <Navbar signOut={signOut} username={state.username} />
             <Outlet />
           </div>
         </ThemeProvider>

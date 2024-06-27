@@ -1,6 +1,5 @@
 #root {
   height: calc(100vh - 48px);
-  background-color: var(--main-background);
   overflow: auto;
 }
 .bodyContainer {

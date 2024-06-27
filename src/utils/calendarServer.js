@@ -57,8 +57,19 @@ export const calendarServer = {
       const { data: calendarSettings, errors } =
         await client.models.CalendarSettings.create(settingsData)
 
-        if (errors) throw new Error(errors[0].message)
+      if (errors) throw new Error(errors[0].message)
       console.log('Day settings created: ', calendarSettings)
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  async fetchCalendarSettings(username) {
+    try {
+      const { data: calendarSettings, errors } =
+        await client.models.CalendarSettings.get({ username })
+
+      if (errors) throw new Error(errors[0].message)
+      return calendarSettings
     } catch (e) {
       console.error(e)
     }
@@ -68,7 +79,7 @@ export const calendarServer = {
       const { data: calendarSettings, errors } =
         await client.models.CalendarSettings.update(settingsData)
 
-        if (errors) throw new Error(errors[0].message)
+      if (errors) throw new Error(errors[0].message)
       console.log('Day settings updated: ', calendarSettings)
     } catch (e) {
       console.error(e)

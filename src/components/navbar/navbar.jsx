@@ -19,7 +19,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 
-const Navbar = ({ signOut }) => {
+const Navbar = ({ signOut, username }) => {
   const [anchorElement, setAnchorElement] = useState(null)
   const tooltipOpen = Boolean(anchorElement)
   const navigate = useNavigate()
@@ -41,27 +41,27 @@ const Navbar = ({ signOut }) => {
   }
 
   return (
-      <AppBar elevation={0}>
-        <Toolbar variant='dense' sx={{ justifyContent: 'space-between'}}>
-          <Box>
-            <Link to='/main' className='navLink'>
-              <Typography>Calendar</Typography>
-            </Link>
-          </Box>
-          <Tooltip title='Open Settings'>
-            <IconButton
-              size='small'
-              aria-controls={tooltipOpen ? 'account-menu' : undefined}
-              aria-expanded={tooltipOpen ? 'true' : undefined}
-              aria-haspopup='true'
-              onClick={handleSettingsClick}>
-              <Avatar sx={{ width: 32, height: 32, bgcolor: '#4E6E58' }}>
-                S
-              </Avatar>
-            </IconButton>
-          </Tooltip>
-        </Toolbar>
-        <Menu
+    <AppBar elevation={0}>
+      <Toolbar variant='dense' sx={{ justifyContent: 'space-between' }}>
+        <Box>
+          <Link to='/main' className='navLink'>
+            <Typography>Calendar</Typography>
+          </Link>
+        </Box>
+        <Tooltip title='Open Settings'>
+          <IconButton
+            size='small'
+            aria-controls={tooltipOpen ? 'account-menu' : undefined}
+            aria-expanded={tooltipOpen ? 'true' : undefined}
+            aria-haspopup='true'
+            onClick={handleSettingsClick}>
+            <Avatar sx={{ width: 32, height: 32, bgcolor: '#4E6E58' }}>
+              {username && username[0]}
+            </Avatar>
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
+      <Menu
         anchorEl={anchorElement}
         id='account-menu'
         open={tooltipOpen}
@@ -82,13 +82,13 @@ const Navbar = ({ signOut }) => {
           Sign out
         </MenuItem>
       </Menu>
-      </AppBar>
-
+    </AppBar>
   )
 }
 
 Navbar.propTypes = {
   signOut: PropTypes.func.isRequired,
+  username: PropTypes.string,
 }
 
 export { Navbar }

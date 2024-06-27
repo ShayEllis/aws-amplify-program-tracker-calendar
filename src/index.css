@@ -16,6 +16,7 @@
 }
 html {
   color: var(--main-text);
+  background-color: var(--main-background);
 }
 ::selection {
   background-color: var(--sat-sun-heading);

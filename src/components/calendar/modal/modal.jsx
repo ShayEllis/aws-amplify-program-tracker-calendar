@@ -91,9 +91,7 @@ export const Modal = ({ showConfetti }) => {
 
     if (state.exsistingDayData) {
       if (allInputValuesFalse) {
-        calendarServer.deleteCalendarDayData(
-          state.selectedDay
-        )
+        calendarServer.deleteCalendarDayData(state.selectedDay)
         dispatch({
           type: 'modal/deleteCalendarDayData',
           payload: state.selectedDay,
@@ -108,7 +106,6 @@ export const Modal = ({ showConfetti }) => {
           dateString: state.selectedDay,
           ...inputValues,
         }
-
         calendarServer.createCalendarDayData(dayData)
       } else {
         dispatch({
