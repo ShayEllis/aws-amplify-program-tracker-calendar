@@ -8,6 +8,7 @@ export const initialState = {
   dayData: {},
   selectedDay: null,
   exsistingDayData: null,
+  settings: {}
 }
 
 // Reducers

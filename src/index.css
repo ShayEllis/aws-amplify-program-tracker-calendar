@@ -23,4 +23,5 @@ html {
 body {
   min-width: 352px;
   font-family: 'Inconsolata', monospace;
+  padding-top: 48px;
 }

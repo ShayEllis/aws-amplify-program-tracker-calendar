@@ -52,4 +52,26 @@ export const calendarServer = {
       console.error(e)
     }
   },
+  async createCalendarSettings(settingsData) {
+    try {
+      const { data: calendarSettings, errors } =
+        await client.models.CalendarSettings.create(settingsData)
+
+        if (errors) throw new Error(errors[0].message)
+      console.log('Day settings created: ', calendarSettings)
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  async updateCalendarSettings(settingsData) {
+    try {
+      const { data: calendarSettings, errors } =
+        await client.models.CalendarSettings.update(settingsData)
+
+        if (errors) throw new Error(errors[0].message)
+      console.log('Day settings updated: ', calendarSettings)
+    } catch (e) {
+      console.error(e)
+    }
+  },
 }
