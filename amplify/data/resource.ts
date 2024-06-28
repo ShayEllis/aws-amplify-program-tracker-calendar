@@ -23,8 +23,8 @@ const schema = a.schema({
     .model({
       username: a.id().required(),
       programType: a.enum(['soft', 'hard']),
-      length: a.enum(['20', '30', '60', '75']),
-      phase: a.enum(['standard', 'phase1']),
+      programLength: a.integer(),
+      programPhase: a.enum(['standard', 'phase1']),
     })
     .identifier(['username'])
     .authorization((allow) => allow.owner()),

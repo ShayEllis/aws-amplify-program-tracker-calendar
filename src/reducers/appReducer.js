@@ -1,4 +1,5 @@
 // Utils
+import { defaults } from 'chart.js'
 import { convertServerData } from '../utils/utils'
 
 // Initial state
@@ -103,11 +104,13 @@ export const reducer = (state, action) => {
       delete newDayData[action.payload]
       return { ...state, dayData: newDayData }
     }
-    case 'settings/setDefault': {
+    case 'settings/useDefault': {
       const defaultSettings = {
-        
+        programType: 'hard',
+        programLength: '75',
+        programPhase: 'standard',
       }
-      return { ...state }
+      return { ...state, settings: defaultSettings }
     }
     default:
       throw new Error(`Unknown action: ${action.type}`)
