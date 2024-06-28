@@ -1,6 +1,6 @@
 #root {
-  height: 100%;
-  overflow: auto;
+  /* height: 100%;
+  overflow: auto; */
 }
 .bodyContainer {
   display: flex;

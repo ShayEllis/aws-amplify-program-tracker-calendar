@@ -1,5 +1,4 @@
 // Utils
-import { defaults } from 'chart.js'
 import { convertServerData } from '../utils/utils'
 
 // Initial state

@@ -25,6 +25,4 @@ body {
   min-width: 352px;
   font-family: 'Inconsolata', monospace;
   padding-top: 48px;
-  height: calc(100vh - 48px);
-  overflow: hidden;
 }
