@@ -1,7 +1,7 @@
 // React
 import { useReducer, useEffect, useState } from 'react'
 // React Router
-import { Outlet, useOutletContext } from 'react-router-dom'
+import { Outlet, useOutletContext, useLoaderData } from 'react-router-dom'
 // Components
 import { Navbar } from './components/navbar/navbar'
 // Styles
@@ -41,20 +41,22 @@ function App() {
   const [fetchingData, setFetchingData] = useState(true)
   // SignOut function passed from AWS Authenticator
   const signOut = useOutletContext()
+  const test = useLoaderData()
+  console.log(test)
 
   useEffect(() => {
     // Fetch exsisting data from the server
-    calendarServer.fetchCalendarDayData().then((response) => {
-      if (response) {
-        dispatch({ type: 'app/loadCalenderDayData', payload: response })
-        setFetchingData(false)
-      }
+    // calendarServer.fetchCalendarDayData().then((response) => {
+    //   if (response) {
+    //     dispatch({ type: 'app/loadCalenderDayData', payload: response })
+    //     setFetchingData(false)
+    //   }
 
       // Get current username
-      calendarAuth.fetchUsername().then((username) => {
-        if (username) dispatch({ type: 'app/setUsername', payload: username})
-      })
-    })
+    //   calendarAuth.fetchUsername().then((username) => {
+    //     if (username) dispatch({ type: 'app/setUsername', payload: username})
+    //   })
+    // })
   }, [])
 
   useEffect(() => {
