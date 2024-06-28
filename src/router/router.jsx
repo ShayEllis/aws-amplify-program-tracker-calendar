@@ -1,7 +1,7 @@
 // React Router
 import { createBrowserRouter } from 'react-router-dom'
 // Components
-import { App } from '../root'
+import { App } from '../app'
 import { Home } from '../home/home'
 import { Calendar } from '../components/calendar/calendar'
 import { Settings } from '../components/settings/settings'
