@@ -1,7 +1,7 @@
 // Styles
 import './settings.css'
 // React Router
-
+import { useNavigate } from 'react-router-dom'
 // React
 import { useEffect, useContext } from 'react'
 // Utils
@@ -9,6 +9,7 @@ import { calendarServer } from '../../utils/calendarServer'
 import dayjs from 'dayjs'
 // MUI
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
@@ -25,6 +26,7 @@ import {
 const Settings = () => {
   const state = useContext(CalendarContext)
   const dispatch = useContext(CalendarDispatchContext)
+  const navigate = useNavigate()
 
   const handleSettingInputChange = ({ target }) => {
     const allowedInputNames = ['programType', 'programLength', 'programPhase']
@@ -43,7 +45,10 @@ const Settings = () => {
       type: 'app/changeSettingValues',
       payload: { inputName: 'programStart', value: event.valueOf() },
     })
-    console.log(state.settings)
+  }
+
+  const handleSaveButtonClick = () => {
+    navigate('/main')
   }
 
   useEffect(() => {
@@ -59,7 +64,11 @@ const Settings = () => {
             sx={{ width: '100%' }}
             label='Program Start'
             name='test'
-            value={dayjs(state.settings.programStart)}
+            value={
+              state.settings.programStart === undefined
+                ? null
+                : dayjs(state.settings.programStart)
+            }
             onChange={handleSettingsDateChange}
           />
         </LocalizationProvider>
@@ -104,6 +113,14 @@ const Settings = () => {
             <MenuItem value={'phase1'}>Phase 1</MenuItem>
           </Select>
         </FormControl>
+        <Button
+          sx={{ mt: 2, width: '100%' }}
+          color='secondary'
+          variant='contained'
+          disableElevation
+          onClick={handleSaveButtonClick}>
+          Save
+        </Button>
       </Box>
     </Box>
   )

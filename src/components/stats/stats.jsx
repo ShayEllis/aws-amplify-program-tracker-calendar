@@ -14,7 +14,6 @@ import { getCurrentStreak, getDayIdentifier } from '../../utils/utils'
 export const Stats = () => {
   const state = useContext(CalendarContext)
   const [hideChart, setHideChart] = useState(false)
-  const goal = 75 // ****** ALLOW USER TO EDIT? ******
 
   // ****** Would useMemo() help here? ******
   const completedDays = Object.keys(state.dayData).filter((dateString) => {
@@ -57,7 +56,7 @@ export const Stats = () => {
             ? { transform: 'scale(0)', marginBottom: `-${chartHeight}px` }
             : undefined
         }>
-        <ProgressChart goal={goal} currentStreak={currentStreak} />
+        <ProgressChart goal={state.settings.programLength || 75} currentStreak={currentStreak} />
       </div>
     </div>
   )

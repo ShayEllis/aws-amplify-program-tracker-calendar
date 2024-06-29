@@ -8,11 +8,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-@media screen and (max-width: 550px) {
-  .dayHeader {
-    font-size: 0.75rem;
-  }
+  line-height: 1;
 }
 .calendarDate {
   top: 0;
@@ -47,4 +43,12 @@
   animation: jackInTheBox;
   animation-duration: 1s;
   transition: all 2s;
+}
+@media screen and (max-width: 550px) {
+  .dayHeader {
+    font-size: 0.75rem;
+  }
+  .dayProgress {
+    font-size: 10px;
+  }
 }

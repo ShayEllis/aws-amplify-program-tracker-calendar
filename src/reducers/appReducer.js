@@ -82,6 +82,11 @@ export const reducer = (state, action) => {
               oneGallonOfWater: false,
               progressPicture: false,
               read: false,
+              task1: false,
+              task2: false,
+              task3: false,
+              coldShower: false,
+              activeVisualization: false,
             },
           },
         }
@@ -103,6 +108,11 @@ export const reducer = (state, action) => {
             oneGallonOfWater: false,
             progressPicture: false,
             read: false,
+            task1: false,
+            task2: false,
+            task3: false,
+            coldShower: false,
+            activeVisualization: false,
           },
         },
       }

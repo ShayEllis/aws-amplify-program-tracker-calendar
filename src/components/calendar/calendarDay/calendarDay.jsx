@@ -42,6 +42,7 @@ export const CalendarDay = ({ day }) => {
         <CalendarData
           date={day.getDate()}
           dayData={state.dayData[getDayIdentifier(day)]}
+          calendarSettings={state.settings}
         />
       </div>
     </td>

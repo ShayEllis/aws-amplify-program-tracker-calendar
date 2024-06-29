@@ -52,6 +52,11 @@ export const Modal = ({ showConfetti }) => {
       'oneGallonOfWater',
       'progressPicture',
       'read',
+      'task1',
+      'task2',
+      'task3',
+      'coldShower',
+      'activeVisualization',
     ]
     if (allowedInputNames.includes(event.target.name)) {
       dispatch({
@@ -97,7 +102,7 @@ export const Modal = ({ showConfetti }) => {
           payload: state.selectedDay,
         })
       } else {
-        // ****** Add another check to only update if inputs changed? ******
+        // ****** Add another check to only update if inputs actually changed? ******
         calendarServer.updateCalendarDayData(state.selectedDay, inputValues)
       }
     } else {
@@ -119,8 +124,9 @@ export const Modal = ({ showConfetti }) => {
     const numInputsTrue = Object.values(
       state.dayData[state.selectedDay]
     ).filter((inputVal) => inputVal === true).length
-
-    if (numInputsTrue === 7) {
+    const inputsTrueGoal = state.settings.programType === 'standard' ? 7 : 12
+    console.log(inputsTrueGoal)
+    if (numInputsTrue === inputsTrueGoal) {
       showConfetti()
     }
     dispatch({ type: 'modal/removeSelectedDay' })
@@ -237,6 +243,82 @@ export const Modal = ({ showConfetti }) => {
                 />
               }
             />
+            {state.settings.programPhase === 'phase1' && (
+              <>
+                <FormControlLabel
+                  label='Task 1'
+                  sx={formControlLabelStyles}
+                  control={
+                    <Checkbox
+                      color='secondary'
+                      name='task1'
+                      checked={state.dayData[state.selectedDay].task1}
+                      onChange={(event) =>
+                        modalInputChange(event, state.selectedDay)
+                      }
+                    />
+                  }
+                />
+                <FormControlLabel
+                  label='Task 2'
+                  sx={formControlLabelStyles}
+                  control={
+                    <Checkbox
+                      color='secondary'
+                      name='task2'
+                      checked={state.dayData[state.selectedDay].task2}
+                      onChange={(event) =>
+                        modalInputChange(event, state.selectedDay)
+                      }
+                    />
+                  }
+                />
+                <FormControlLabel
+                  label='Task 3'
+                  sx={formControlLabelStyles}
+                  control={
+                    <Checkbox
+                      color='secondary'
+                      name='task3'
+                      checked={state.dayData[state.selectedDay].task3}
+                      onChange={(event) =>
+                        modalInputChange(event, state.selectedDay)
+                      }
+                    />
+                  }
+                />
+                <FormControlLabel
+                  label='Cold Shower'
+                  sx={formControlLabelStyles}
+                  control={
+                    <Checkbox
+                      color='secondary'
+                      name='coldShower'
+                      checked={state.dayData[state.selectedDay].coldShower}
+                      onChange={(event) =>
+                        modalInputChange(event, state.selectedDay)
+                      }
+                    />
+                  }
+                />
+                <FormControlLabel
+                  label='Active Visualization'
+                  sx={formControlLabelStyles}
+                  control={
+                    <Checkbox
+                      color='secondary'
+                      name='activeVisualization'
+                      checked={
+                        state.dayData[state.selectedDay].activeVisualization
+                      }
+                      onChange={(event) =>
+                        modalInputChange(event, state.selectedDay)
+                      }
+                    />
+                  }
+                />
+              </>
+            )}
           </FormGroup>
           <div>
             <Stack
