@@ -1,4 +1,5 @@
 .statsContainer {
+  transition: all 0.20s;
   display:flex;
   flex-direction: column;
   align-items: flex-start;
@@ -7,7 +8,7 @@
   margin-bottom: 1rem;
 }
 .chartContainer {
-  transition: all 0.5s;
+  transition: all 0.20s;
   transition-timing-function: linear;
   transform-origin: top;
   width: 100%;

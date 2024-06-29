@@ -1,4 +1,5 @@
 import { generateClient } from 'aws-amplify/api'
+import { removeReadOnlyFields } from './utils'
 
 const client = generateClient()
 
@@ -26,9 +27,11 @@ export const calendarServer = {
     }
   },
   async updateCalendarDayData(dateString, data) {
+    const filteredData = removeReadOnlyFields(data)
+
     const dayToUpdate = {
       dateString,
-      ...data,
+      ...filteredData,
     }
     try {
       const { data: updatedCalendarData, errors } =
@@ -41,10 +44,9 @@ export const calendarServer = {
     }
   },
   async deleteCalendarDayData(dateString) {
-    const dayToDelete = { dateString }
     try {
       const { data: deletedLeagueData, errors } =
-        await client.models.Calendar.delete(dayToDelete)
+        await client.models.Calendar.delete({ dateString })
 
       if (errors) throw new Error(errors[0].message)
       console.log('Day data deleted: ', deletedLeagueData)
@@ -75,12 +77,25 @@ export const calendarServer = {
     }
   },
   async updateCalendarSettings(settingsData) {
+    const filteredSettingsData = removeReadOnlyFields(settingsData)
+
     try {
       const { data: calendarSettings, errors } =
-        await client.models.CalendarSettings.update(settingsData)
+        await client.models.CalendarSettings.update(filteredSettingsData)
 
       if (errors) throw new Error(errors[0].message)
       console.log('Day settings updated: ', calendarSettings)
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  async deleteCalendarSettings(username) {
+    try {
+      const { data: calendarSettings, errors } =
+        await client.models.CalendarSettings.delete({ username })
+
+      if (errors) throw new Error(errors[0].message)
+      console.log('Calendar settings deleted: ', calendarSettings)
     } catch (e) {
       console.error(e)
     }

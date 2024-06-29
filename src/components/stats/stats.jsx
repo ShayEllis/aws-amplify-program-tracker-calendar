@@ -47,7 +47,7 @@ export const Stats = () => {
         variant='contained'
         disableElevation
         onClick={() => setHideChart(!hideChart)}>
-        {hideChart ? '+' : '-'}
+        {hideChart ? 'Show Stats' : 'Hide Stats'}
       </Button>
       <div
         ref={chartContainerRef}

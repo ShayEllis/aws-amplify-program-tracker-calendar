@@ -80,3 +80,12 @@ export const getCurrentStreak = (completedDays, todaysDate) => {
   }
   return dayStreak
 }
+
+export const removeReadOnlyFields = (inputValues) => {
+  const inputValuesCopy = { ...inputValues }
+  const fieldsToRemove = ['createdAt', 'owner', 'updatedAt']
+  for (let field of fieldsToRemove) {
+    delete inputValuesCopy[field]
+  }
+  return inputValuesCopy
+}

@@ -6,67 +6,100 @@ import './settings.css'
 import { useEffect, useContext } from 'react'
 // Utils
 import { calendarServer } from '../../utils/calendarServer'
+import dayjs from 'dayjs'
 // MUI
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 // State
-import { CalendarContext } from '../../context/calendarContexts'
+import {
+  CalendarContext,
+  CalendarDispatchContext,
+} from '../../context/calendarContexts'
 
 const Settings = () => {
   const state = useContext(CalendarContext)
+  const dispatch = useContext(CalendarDispatchContext)
+
+  const handleSettingInputChange = ({ target }) => {
+    const allowedInputNames = ['programType', 'programLength', 'programPhase']
+    if (allowedInputNames.includes(target.name)) {
+      dispatch({
+        type: 'app/changeSettingValues',
+        payload: { inputName: target.name, value: target.value },
+      })
+    } else {
+      console.error(`No input with the name '${target.name}'`)
+    }
+  }
+
+  const handleSettingsDateChange = (event) => {
+    dispatch({
+      type: 'app/changeSettingValues',
+      payload: { inputName: 'programStart', value: event.valueOf() },
+    })
+    console.log(state.settings)
+  }
 
   useEffect(() => {
-    const settingsData = {
-      username: state.username,
-      programType: 'soft',
-      programLength: '75',
-      programPhase: 'standard',
-    }
-    // calendarServer.createCalendarSettings(settingsData)
-    // calendarServer.updateCalendarSettings(settingsData)
-  }, [])
+    calendarServer.updateCalendarSettings(state.settings)
+  }, [state.settings])
 
   return (
-    <Box>
+    <Box sx={{ width: '250px' }}>
       <h2 className='settings-page-title'>Calendar Settings</h2>
       <Box>
-        <FormControl fullWidth sx={{ mt: 2 }} size='small'>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            sx={{ width: '100%' }}
+            label='Program Start'
+            name='test'
+            value={dayjs(state.settings.programStart)}
+            onChange={handleSettingsDateChange}
+          />
+        </LocalizationProvider>
+        <FormControl fullWidth sx={{ mt: 2 }}>
           <InputLabel id='program-type'>Program Type</InputLabel>
           <Select
             labelId='program-type'
             id='program-type'
-            value={'hard'}
+            value={state.settings.programType || ''}
             label='Program Type'
-            onChange={'handleChange'}>
+            name='programType'
+            onChange={handleSettingInputChange}>
             <MenuItem value={'soft'}>Soft</MenuItem>
             <MenuItem value={'hard'}>Hard</MenuItem>
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ mt: 2 }} size='small'>
+        <FormControl fullWidth sx={{ mt: 2 }}>
           <InputLabel id='program-length'>Program Length</InputLabel>
           <Select
             labelId='program-length'
             id='program-length'
-            value={20}
+            value={state.settings.programLength || ''}
             label='Program Length'
-            onChange={'handleChange'}>
+            name='programLength'
+            onChange={handleSettingInputChange}>
             <MenuItem value={20}>20</MenuItem>
             <MenuItem value={30}>30</MenuItem>
             <MenuItem value={60}>60</MenuItem>
             <MenuItem value={75}>75</MenuItem>
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ mt: 2 }} size='small'>
+        <FormControl fullWidth sx={{ mt: 2 }}>
           <InputLabel id='program-phase'>Program Phase</InputLabel>
           <Select
             labelId='program-phase'
             id='program-phase'
-            value={'standard'}
+            value={state.settings.programPhase || ''}
             label='Program Phase'
-            onChange={'handleChange'}>
+            name='programPhase'
+            onChange={handleSettingInputChange}>
             <MenuItem value={'standard'}>Standard</MenuItem>
             <MenuItem value={'phase1'}>Phase 1</MenuItem>
           </Select>

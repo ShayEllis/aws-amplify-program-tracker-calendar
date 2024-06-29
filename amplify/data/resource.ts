@@ -22,6 +22,7 @@ const schema = a.schema({
   CalendarSettings: a
     .model({
       username: a.id().required(),
+      programStart: a.timestamp(),
       programType: a.enum(['soft', 'hard']),
       programLength: a.integer(),
       programPhase: a.enum(['standard', 'phase1']),

@@ -58,14 +58,18 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(state.username)
-    if (state.username) {
+    if (state.settings.username) {
       // Check for existing calendar settings and set defaults if undefined
-      calendarServer.fetchCalendarSettings(state.username).then((response) => {
-        console.log(response)
+      calendarServer.fetchCalendarSettings(state.settings.username).then((response) => {
+        if (response) {
+          dispatch({ type: 'app/loadCalendarSettings', payload: response })
+        } else {
+          dispatch({ type: 'app/setDefaultCalendarSettings' })
+          calendarServer.createCalendarSettings(state.settings)
+        }
       })
     }
-  }, [state.username])
+  }, [state.settings.username])
 
   return (
     <CalendarContext.Provider value={state}>
@@ -93,7 +97,7 @@ function App() {
             </Backdrop>
           )}
           <div className='bodyContainer'>
-            <Navbar signOut={signOut} username={state.username} />
+            <Navbar signOut={signOut} username={state.settings.username} />
             <Outlet />
           </div>
         </ThemeProvider>

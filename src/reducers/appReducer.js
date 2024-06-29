@@ -20,7 +20,31 @@ export const reducer = (state, action) => {
       return { ...state, dayData: { ...state.dayData, ...formatedServerData } }
     }
     case 'app/setUsername': {
-      return { ...state, username: action.payload }
+      return {
+        ...state,
+        settings: { ...state.settings, username: action.payload },
+      }
+    }
+    case 'app/setDefaultCalendarSettings': {
+      const defaultSettings = {
+        programStart: null,
+        programType: 'hard',
+        programLength: 75,
+        programPhase: 'standard',
+      }
+      return { ...state, settings: { ...state.settings, ...defaultSettings } }
+    }
+    case 'app/changeSettingValues': {
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          [action.payload.inputName]: action.payload.value,
+        },
+      }
+    }
+    case 'app/loadCalendarSettings': {
+      return { ...state, settings: action.payload }
     }
     case 'calendar/previousMonth': {
       return {
@@ -102,14 +126,6 @@ export const reducer = (state, action) => {
       const newDayData = { ...state.dayData }
       delete newDayData[action.payload]
       return { ...state, dayData: newDayData }
-    }
-    case 'settings/useDefault': {
-      const defaultSettings = {
-        programType: 'hard',
-        programLength: '75',
-        programPhase: 'standard',
-      }
-      return { ...state, settings: defaultSettings }
     }
     default:
       throw new Error(`Unknown action: ${action.type}`)
