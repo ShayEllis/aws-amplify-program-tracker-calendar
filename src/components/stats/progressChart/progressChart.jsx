@@ -52,16 +52,17 @@ export const ProgressChart = ({ goal, currentStreak }) => {
 
   useLayoutEffect(() => {
     renderChart()
-
     return () => {
       destroyChart()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     chartRef.current.data.labels = chartLables
     chartRef.current.data.datasets[0].data = chartData
     chartRef.current.update()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goal, currentStreak])
 
   return (

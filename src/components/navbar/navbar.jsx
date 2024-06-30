@@ -1,7 +1,7 @@
 // Styles
 import './navbar.css'
 // React
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 // React Router
 import { Link, useNavigate } from 'react-router-dom'
@@ -19,7 +19,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 
-const Navbar = ({ signOut, username }) => {
+const Navbar = memo(function Navbar({ signOut, username }) {
   const [anchorElement, setAnchorElement] = useState(null)
   const tooltipOpen = Boolean(anchorElement)
   const navigate = useNavigate()
@@ -84,7 +84,7 @@ const Navbar = ({ signOut, username }) => {
       </Menu>
     </AppBar>
   )
-}
+})
 
 Navbar.propTypes = {
   signOut: PropTypes.func.isRequired,

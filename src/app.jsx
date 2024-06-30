@@ -17,22 +17,11 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { grey } from '@mui/material/colors'
 // Utils
 import { calendarServer } from './utils/calendarServer'
 import { calendarAuth } from './utils/calendarAuth'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: grey[500],
-    },
-    secondary: {
-      main: '#4E6E58',
-    },
-  },
-})
+
 
 function App() {
   // Manages all calendar state
@@ -75,7 +64,6 @@ function App() {
   return (
     <CalendarContext.Provider value={state}>
       <CalendarDispatchContext.Provider value={dispatch}>
-        <ThemeProvider theme={theme}>
           {fetchingData && (
             <Backdrop
               sx={{
@@ -101,7 +89,6 @@ function App() {
             <Navbar signOut={signOut} username={state.settings.username} />
             <Outlet />
           </div>
-        </ThemeProvider>
       </CalendarDispatchContext.Provider>
     </CalendarContext.Provider>
   )

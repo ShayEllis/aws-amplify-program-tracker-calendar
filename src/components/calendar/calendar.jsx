@@ -10,7 +10,6 @@ import { generateCalendarDays } from '../../utils/utils'
 import { CalendarWeek } from './calendarWeek/calendarWeek'
 import { Modal } from './modal/modal'
 import { Confetti } from './confetti/confetti'
-import { Stats } from '../stats/stats'
 // State
 import {
   CalendarContext,
@@ -37,6 +36,7 @@ export const Calendar = () => {
     'NOVEMBER',
     'DECEMBER',
   ]
+  console.log(Object.is(state.calendarMonth, state.calendarMonth))
   // Calculate the number of weeks to show in the calendar
   const weeksInCurrentMonth = Math.ceil(
     (new Date(
@@ -65,7 +65,6 @@ export const Calendar = () => {
   }
 
   return (
-    <>
       <div className='calendarContainer'>
         <table id='calendar'>
           <thead>
@@ -128,7 +127,5 @@ export const Calendar = () => {
           </tbody>
         </table>
       </div>
-      <Stats />
-    </>
   )
 }

@@ -1,5 +1,5 @@
 // React
-import { useContext, useState, useEffect, useRef } from 'react'
+import { memo, useContext, useState, useEffect, useRef, useMemo } from 'react'
 // State
 import { CalendarContext } from '../../context/calendarContexts'
 // Styles
@@ -15,16 +15,23 @@ export const Stats = () => {
   const state = useContext(CalendarContext)
   const [hideChart, setHideChart] = useState(false)
 
-  // ****** Would useMemo() help here? ******
-  const completedDays = Object.keys(state.dayData).filter((dateString) => {
-    if (dateString === getDayIdentifier(state.todaysDate)) return false
-    const inputValues = Object.values(state.dayData[dateString])
-    return inputValues.every((value) => {
-      if (typeof value !== 'boolean') return true
-      return value === true
+  console.log('stats rendered')
+
+  const completedDays = useMemo(() => {
+    return Object.keys(state.dayData).filter((dateString) => {
+      if (dateString === getDayIdentifier(state.todaysDate)) return false
+      const inputValues = Object.values(state.dayData[dateString])
+      return inputValues.every((value) => {
+        if (typeof value !== 'boolean') return true
+        return value === true
+      })
     })
-  })
-  const currentStreak = getCurrentStreak(completedDays, state.todaysDate)
+  }, [state.dayData, state.todaysDate])
+
+  const currentStreak = useMemo(
+    () => getCurrentStreak(completedDays, state.todaysDate),
+    [completedDays, state.todaysDate]
+  )
 
   const [chartHeight, setChartHeight] = useState()
   const chartContainerRef = useRef()
@@ -56,7 +63,10 @@ export const Stats = () => {
             ? { transform: 'scale(0)', marginBottom: `-${chartHeight}px` }
             : undefined
         }>
-        <ProgressChart goal={state.settings.programLength || 75} currentStreak={currentStreak} />
+        <ProgressChart
+          goal={state.settings.programLength || 75}
+          currentStreak={currentStreak}
+        />
       </div>
     </div>
   )
