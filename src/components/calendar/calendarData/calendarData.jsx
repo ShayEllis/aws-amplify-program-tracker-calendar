@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 // Styles
 import './calendarData.css'
@@ -17,7 +17,7 @@ import {
   activeVisualizationIcon,
 } from '../../../assets/icons'
 
-export const CalendarData = ({ date, dayData, calendarSettings }) => {
+export const CalendarData = ({ date, dayData, programPhase }) => {
   // Create new opject and copy dayData defore destructuring, this prevents an error when dayData is undefined
   const {
     diet,
@@ -34,16 +34,26 @@ export const CalendarData = ({ date, dayData, calendarSettings }) => {
     activeVisualization,
   } = { ...dayData }
   // Number of checkboxes in the form
-  const inputsTrueGoal = calendarSettings.programPhase === 'standard' ? 7 : 12
+  const inputsTrueGoal = programPhase === 'standard' ? 7 : 12
 
   // Local state to keep track of how many checkboxes are checked
   const [numTrueInputs, setNumTrueInputs] = useState(0)
+
+  // Testing performance
+  const dayDataRenders = useRef(0)
+  if (
+    import.meta.env.DEV &&
+    import.meta.env.VITE_SHOW_RENDER_COUNTERS === 'true'
+  ) {
+    dayDataRenders.current = dayDataRenders.current + 1
+    console.log(`Day data rendered ${dayDataRenders.current} times.`)
+  }
 
   // Each time the state is changed for a checkbox recacluate how many are checked
   useEffect(() => {
     if (dayData !== undefined) {
       setNumTrueInputs(
-        Object.values(dayData).filter((inputVal) => inputVal === true).length
+        Math.min(Object.values(dayData).filter((inputVal) => inputVal === true).length, inputsTrueGoal)
       )
     }
   }, [dayData])
@@ -98,19 +108,19 @@ export const CalendarData = ({ date, dayData, calendarSettings }) => {
         {read && (
           <img src={readIcon} alt='Gallon of water' className='dayIcon' />
         )}
-        {calendarSettings.programPhase === 'phase1' && task1 && (
+        {programPhase === 'phase1' && task1 && (
           <img src={taskIcon} alt='Gallon of water' className='dayIcon' />
         )}
-        {calendarSettings.programPhase === 'phase1' && task2 && (
+        {programPhase === 'phase1' && task2 && (
           <img src={taskIcon} alt='Gallon of water' className='dayIcon' />
         )}
-        {calendarSettings.programPhase === 'phase1' && task3 && (
+        {programPhase === 'phase1' && task3 && (
           <img src={taskIcon} alt='Gallon of water' className='dayIcon' />
         )}
-        {calendarSettings.programPhase === 'phase1' && coldShower && (
+        {programPhase === 'phase1' && coldShower && (
           <img src={coldShowerIcon} alt='Gallon of water' className='dayIcon' />
         )}
-        {calendarSettings.programPhase === 'phase1' && activeVisualization && (
+        {programPhase === 'phase1' && activeVisualization && (
           <img
             src={activeVisualizationIcon}
             alt='Gallon of water'
@@ -126,4 +136,5 @@ CalendarData.propTypes = {
   date: PropTypes.number.isRequired,
   dayData: PropTypes.object,
   calendarSettings: PropTypes.object,
+  programPhase: PropTypes.string,
 }

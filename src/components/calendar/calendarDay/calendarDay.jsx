@@ -1,5 +1,5 @@
 // React
-import { useContext, useMemo } from 'react'
+import { memo, useMemo, useContext, useRef } from 'react'
 import PropTypes from 'prop-types'
 // Styles
 import './calendarDay.css'
@@ -7,15 +7,27 @@ import './calendarDay.css'
 import { CalendarData } from '../calendarData/calendarData'
 import { getDayIdentifier } from '../../../utils/utils'
 // State
-import {
-  CalendarContext,
-  CalendarDispatchContext,
-} from '../../../context/calendarContexts'
+import { CalendarDispatchContext } from '../../../context/calendarContexts'
 
-export const CalendarDay = ({ day }) => {
+export const CalendarDay = memo(function CalendarDay({
+  day,
+  calendarMonth,
+  todaysDate,
+  dayData,
+  programPhase,
+}) {
   // Main calendar state and dispatch function
-  const state = useContext(CalendarContext)
   const dispatch = useContext(CalendarDispatchContext)
+
+  // Testing performance
+  const dayRenders = useRef(0)
+  if (
+    import.meta.env.DEV &&
+    import.meta.env.VITE_SHOW_RENDER_COUNTERS === 'true'
+  ) {
+    dayRenders.current = dayRenders.current + 1
+    console.log(`Day rendered ${dayRenders.current} times.`)
+  }
 
   const handleDayClick = (day) => {
     const dayIdentifier = getDayIdentifier(day)
@@ -25,30 +37,34 @@ export const CalendarDay = ({ day }) => {
 
   // Set differnet styles for the current day of the month and any days that are not part of the current month
   const classes = useMemo(() => {
-    if (state.calendarMonth.getMonth() !== day.getMonth()) {
+    if (calendarMonth.getMonth() !== day.getMonth()) {
       return 'notCurrentMonth calendarCell'
-    } else if (getDayIdentifier(state.todaysDate) === getDayIdentifier(day)) {
+    } else if (getDayIdentifier(todaysDate) === getDayIdentifier(day)) {
       return 'currentDate calendarCell'
-    } else if (day.getTime() > state.todaysDate.getTime()) {
+    } else if (day.getTime() > todaysDate.getTime()) {
       return 'futureDate calendarCell'
     } else {
       return 'calendarCell'
     }
-  }, [day, state.todaysDate, state.calendarMonth])
+  }, [day, todaysDate, calendarMonth])
 
   return (
     <td className='calendarCellContainer'>
       <div className={classes} onClick={() => handleDayClick(day)}>
         <CalendarData
           date={day.getDate()}
-          dayData={state.dayData[getDayIdentifier(day)]}
-          calendarSettings={state.settings}
+          dayData={dayData}
+          programPhase={programPhase}
         />
       </div>
     </td>
   )
-}
+})
 
 CalendarDay.propTypes = {
   day: PropTypes.object.isRequired,
+  calendarMonth: PropTypes.object.isRequired,
+  todaysDate: PropTypes.object.isRequired,
+  dayData: PropTypes.object,
+  programPhase: PropTypes.string,
 }

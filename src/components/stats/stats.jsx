@@ -1,7 +1,6 @@
 // React
-import { useContext, useState, useEffect, useRef, useMemo } from 'react'
-// State
-import { CalendarContext } from '../../context/calendarContexts'
+import { memo, useMemo, useState, useEffect, useRef } from 'react'
+import PropTypes from 'prop-types'
 // Styles
 import './stats.css'
 // Components
@@ -11,29 +10,28 @@ import Button from '@mui/material/Button'
 // Utils
 import { getCurrentStreak } from '../../utils/utils'
 
-export const Stats = () => {
-  const state = useContext(CalendarContext)
+export const Stats = memo(function Stats({
+  dayData,
+  todaysDate,
+  programLength,
+}) {
   const [hideChart, setHideChart] = useState(false)
-
-  // const completedDays = useMemo(() => {
-  //   return Object.keys(state.dayData).filter((dateString) => {
-  //     if (dateString === getDayIdentifier(state.todaysDate)) return false
-  //     const inputValues = Object.values(state.dayData[dateString])
-  //     return inputValues.every((value) => {
-  //       if (typeof value !== 'boolean') return true
-  //       return value === true
-  //     })
-  //   })
-  // }, [state.dayData, state.todaysDate])
-
-  const currentStreak = useMemo(
-    () => getCurrentStreak(state.dayData, state.todaysDate),
-    [state.dayData, state.todaysDate]
-  )
-  console.log(currentStreak)
-
   const [chartHeight, setChartHeight] = useState()
+  const currentStreak = useMemo(
+    () => getCurrentStreak(dayData, todaysDate),
+    [dayData, todaysDate]
+  )
   const chartContainerRef = useRef()
+
+  // Testing performance
+  const statsRenders = useRef(0)
+  if (
+    import.meta.env.DEV &&
+    import.meta.env.VITE_SHOW_RENDER_COUNTERS === 'true'
+  ) {
+    statsRenders.current = statsRenders.current + 1
+    console.log(`Stats rendered ${statsRenders.current} times.`)
+  }
 
   useEffect(() => {
     const handleStatsResize = () => {
@@ -63,10 +61,16 @@ export const Stats = () => {
             : undefined
         }>
         <ProgressChart
-          goal={state.settings.programLength || 75}
+          goal={programLength || 75}
           currentStreak={currentStreak}
         />
       </div>
     </div>
   )
+})
+
+Stats.propTypes = {
+  dayData: PropTypes.object,
+  todaysDate: PropTypes.object,
+  programLength: PropTypes.number,
 }
