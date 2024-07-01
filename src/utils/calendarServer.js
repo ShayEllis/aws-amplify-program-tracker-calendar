@@ -4,11 +4,15 @@ import { removeReadOnlyFields } from './utils'
 const client = generateClient()
 
 export const calendarServer = {
-  async createCalendarDayData(data) {
-    console.log(data)
+  async createCalendarDayData(username, data) {
+    const dataWithUsername = {
+      username,
+      ...data,
+    }
+    console.log(dataWithUsername)
     try {
       const { data: calendarDayData, errors } =
-        await client.models.Calendar.create(data)
+        await client.models.Calendar.create(dataWithUsername)
 
       if (errors) throw new Error(errors[0].message)
       console.log('Day data created: ', calendarDayData)
@@ -27,10 +31,11 @@ export const calendarServer = {
       console.error(e)
     }
   },
-  async updateCalendarDayData(dateString, data) {
+  async updateCalendarDayData(username, dateString, data) {
     const filteredData = removeReadOnlyFields(data)
 
     const dayToUpdate = {
+      username,
       dateString,
       ...filteredData,
     }
@@ -44,10 +49,10 @@ export const calendarServer = {
       console.error(e)
     }
   },
-  async deleteCalendarDayData(dateString) {
+  async deleteCalendarDayData(username, dateString) {
     try {
       const { data: deletedLeagueData, errors } =
-        await client.models.Calendar.delete({ dateString })
+        await client.models.Calendar.delete({ username, dateString })
 
       if (errors) throw new Error(errors[0].message)
       console.log('Day data deleted: ', deletedLeagueData)

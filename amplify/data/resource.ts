@@ -3,6 +3,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 const schema = a.schema({
   Calendar: a
     .model({
+      username: a.id().required(),
       dateString: a.id().required(),
       diet: a.boolean().default(false),
       noAlcoholOrCheatMeal: a.boolean().default(false),
@@ -17,7 +18,7 @@ const schema = a.schema({
       coldShower: a.boolean().default(false),
       activeVisualization: a.boolean().default(false),
     })
-    .identifier(['dateString'])
+    .identifier(['username', 'dateString'])
     .authorization((allow) => [allow.owner()]),
   CalendarSettings: a
     .model({

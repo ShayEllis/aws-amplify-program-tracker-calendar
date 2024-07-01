@@ -96,14 +96,14 @@ export const Modal = ({ showConfetti }) => {
 
     if (state.exsistingDayData) {
       if (allInputValuesFalse) {
-        calendarServer.deleteCalendarDayData(state.selectedDay)
+        calendarServer.deleteCalendarDayData(state.settings.username, state.selectedDay)
         dispatch({
           type: 'modal/deleteCalendarDayData',
           payload: state.selectedDay,
         })
       } else {
         // ****** Add another check to only update if inputs actually changed? ******
-        calendarServer.updateCalendarDayData(state.selectedDay, inputValues)
+        calendarServer.updateCalendarDayData(state.settings.username, state.selectedDay, inputValues)
       }
     } else {
       if (!allInputValuesFalse) {
@@ -111,7 +111,7 @@ export const Modal = ({ showConfetti }) => {
           dateString: state.selectedDay,
           ...inputValues,
         }
-        calendarServer.createCalendarDayData(dayData)
+        calendarServer.createCalendarDayData(state.settings.username, dayData)
       } else {
         dispatch({
           type: 'modal/deleteCalendarDayData',
