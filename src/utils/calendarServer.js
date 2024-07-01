@@ -5,6 +5,7 @@ const client = generateClient()
 
 export const calendarServer = {
   async createCalendarDayData(data) {
+    console.log(data)
     try {
       const { data: calendarDayData, errors } =
         await client.models.Calendar.create(data)
@@ -55,6 +56,8 @@ export const calendarServer = {
     }
   },
   async createCalendarSettings(settingsData) {
+    console.log(settingsData)
+
     try {
       const { data: calendarSettings, errors } =
         await client.models.CalendarSettings.create(settingsData)
