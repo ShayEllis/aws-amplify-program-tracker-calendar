@@ -34,15 +34,13 @@ export const CalendarData = ({ date, dayData, calendarSettings }) => {
     activeVisualization,
   } = { ...dayData }
   // Number of checkboxes in the form
-  const inputsTrueGoal = calendarSettings.programType === 'standard' ? 7 : 12
+  const inputsTrueGoal = calendarSettings.programPhase === 'standard' ? 7 : 12
 
   // Local state to keep track of how many checkboxes are checked
   const [numTrueInputs, setNumTrueInputs] = useState(0)
 
   // Each time the state is changed for a checkbox recacluate how many are checked
   useEffect(() => {
-    console.log('recalc')
-
     if (dayData !== undefined) {
       setNumTrueInputs(
         Object.values(dayData).filter((inputVal) => inputVal === true).length
@@ -54,7 +52,7 @@ export const CalendarData = ({ date, dayData, calendarSettings }) => {
     <div
       className='calendarDataContainer'
       style={
-        numTrueInputs === inputsTrueGoal
+        numTrueInputs >= inputsTrueGoal
           ? { backgroundColor: '#F0D0C6' }
           : undefined
       }>

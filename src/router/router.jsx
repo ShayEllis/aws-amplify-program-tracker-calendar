@@ -3,7 +3,6 @@ import { createBrowserRouter } from 'react-router-dom'
 // Components
 import { App } from '../app'
 import { Home } from '../home/home'
-import { Calendar } from '../components/calendar/calendar'
 import { Main } from '../components/main/main'
 import { Settings } from '../components/settings/settings'
 import { RouteError } from '../components/routeError/routeError'

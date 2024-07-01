@@ -124,9 +124,8 @@ export const Modal = ({ showConfetti }) => {
     const numInputsTrue = Object.values(
       state.dayData[state.selectedDay]
     ).filter((inputVal) => inputVal === true).length
-    const inputsTrueGoal = state.settings.programType === 'standard' ? 7 : 12
-    console.log(inputsTrueGoal)
-    if (numInputsTrue === inputsTrueGoal) {
+    const inputsTrueGoal = state.settings.programPhase === 'standard' ? 7 : 12
+    if (numInputsTrue >= inputsTrueGoal) {
       showConfetti()
     }
     dispatch({ type: 'modal/removeSelectedDay' })

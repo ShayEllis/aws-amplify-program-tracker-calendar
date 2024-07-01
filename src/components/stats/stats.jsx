@@ -1,5 +1,5 @@
 // React
-import { memo, useContext, useState, useEffect, useRef, useMemo } from 'react'
+import { useContext, useState, useEffect, useRef, useMemo } from 'react'
 // State
 import { CalendarContext } from '../../context/calendarContexts'
 // Styles
@@ -9,29 +9,28 @@ import { ProgressChart } from './progressChart/progressChart'
 // Meterial UI
 import Button from '@mui/material/Button'
 // Utils
-import { getCurrentStreak, getDayIdentifier } from '../../utils/utils'
+import { getCurrentStreak } from '../../utils/utils'
 
 export const Stats = () => {
   const state = useContext(CalendarContext)
   const [hideChart, setHideChart] = useState(false)
 
-  console.log('stats rendered')
-
-  const completedDays = useMemo(() => {
-    return Object.keys(state.dayData).filter((dateString) => {
-      if (dateString === getDayIdentifier(state.todaysDate)) return false
-      const inputValues = Object.values(state.dayData[dateString])
-      return inputValues.every((value) => {
-        if (typeof value !== 'boolean') return true
-        return value === true
-      })
-    })
-  }, [state.dayData, state.todaysDate])
+  // const completedDays = useMemo(() => {
+  //   return Object.keys(state.dayData).filter((dateString) => {
+  //     if (dateString === getDayIdentifier(state.todaysDate)) return false
+  //     const inputValues = Object.values(state.dayData[dateString])
+  //     return inputValues.every((value) => {
+  //       if (typeof value !== 'boolean') return true
+  //       return value === true
+  //     })
+  //   })
+  // }, [state.dayData, state.todaysDate])
 
   const currentStreak = useMemo(
-    () => getCurrentStreak(completedDays, state.todaysDate),
-    [completedDays, state.todaysDate]
+    () => getCurrentStreak(state.dayData, state.todaysDate),
+    [state.dayData, state.todaysDate]
   )
+  console.log(currentStreak)
 
   const [chartHeight, setChartHeight] = useState()
   const chartContainerRef = useRef()

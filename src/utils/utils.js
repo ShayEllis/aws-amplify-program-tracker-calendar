@@ -21,6 +21,14 @@ export const generateCalendarDays = (currentDate) => {
     })
 }
 
+export const calcDaysInWeek = (days, week) => {
+  const dayArray = []
+  for (let i = week * 7; i < week * 7 + 7; i++) {
+    dayArray.push(days[i])
+  }
+  return dayArray
+}
+
 export const getDayIdentifier = (dayObj) => {
   return `${dayObj.getMonth()}${dayObj.getDate()}${dayObj.getFullYear()}`
 }
@@ -41,7 +49,7 @@ export const convertUiData = (uiData) => {
   }, [])
 }
 
-export const getCurrentStreak = (completedDays, todaysDate) => {
+export const getCurrentStreak = (dayData, todaysDate) => {
   const convertDayStringToDate = (dateString) => {
     const month =
       parseInt(dateString.substring(0, 2)) <= 12
@@ -52,6 +60,15 @@ export const getCurrentStreak = (completedDays, todaysDate) => {
     const day = dateString.substring(month.length, month.length + dayLength)
     return new Date(parseInt(year), parseInt(month), parseInt(day))
   }
+
+  const completedDays = Object.keys(dayData).filter((dateString) => {
+    if (dateString === getDayIdentifier(todaysDate)) return false
+    const inputValues = Object.values(dayData[dateString])
+    return inputValues.every((value) => {
+      if (typeof value !== 'boolean') return true
+      return value === true
+    })
+  })
 
   const sortedDayteStrings = completedDays.sort((a, b) => {
     const aDate = convertDayStringToDate(a)

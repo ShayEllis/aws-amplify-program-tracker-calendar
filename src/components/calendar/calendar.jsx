@@ -1,5 +1,5 @@
 // React
-import { useContext, useState } from 'react'
+import { useContext, useState, useMemo } from 'react'
 // Icons
 import Arrow from '../../assets/arrow.png'
 // Styles
@@ -36,23 +36,26 @@ export const Calendar = () => {
     'NOVEMBER',
     'DECEMBER',
   ]
-  console.log(Object.is(state.calendarMonth, state.calendarMonth))
   // Calculate the number of weeks to show in the calendar
-  const weeksInCurrentMonth = Math.ceil(
-    (new Date(
-      state.calendarMonth.getFullYear(),
-      state.calendarMonth.getMonth() + 1,
-      0
-    ).getDate() +
-      new Date(
-        state.calendarMonth.getFullYear(),
-        state.calendarMonth.getMonth(),
-        1
-      ).getDay()) /
-      7
+  const weeksInCurrentMonth = useMemo(
+    () =>
+      Math.ceil(
+        (new Date(
+          state.calendarMonth.getFullYear(),
+          state.calendarMonth.getMonth() + 1,
+          0
+        ).getDate() +
+          new Date(
+            state.calendarMonth.getFullYear(),
+            state.calendarMonth.getMonth(),
+            1
+          ).getDay()) /
+          7
+      ),
+    [state.calendarMonth]
   )
   // Use utils function to generate the days in the calender
-  const days = generateCalendarDays(state.calendarMonth)
+  const days = useMemo(() => generateCalendarDays(state.calendarMonth), [state.calendarMonth])
   // Local state to manage when confetti is shown
   const [showConfetti, setShowConfetti] = useState(false)
 
@@ -65,67 +68,67 @@ export const Calendar = () => {
   }
 
   return (
-      <div className='calendarContainer'>
-        <table id='calendar'>
-          <thead>
-            <tr>
-              <th colSpan={7}>
-                {showConfetti && (
-                  <Confetti onComplete={() => setShowConfetti(false)} />
-                )}
-                {state.selectedDay && (
-                  <Modal
-                    selectedDay={state.selectedDay}
-                    dayData={state.dayData ? state.dayData : undefined}
-                    showConfetti={() => setShowConfetti(true)}
-                  />
-                )}
-                <div className='headingContainer'>
-                  <div className='arrowContainer'>
-                    <img
-                      src={Arrow}
-                      alt='Previous Month'
-                      className='arrow previousArrow'
-                      onClick={handlePreviousArrowClick}
-                    />
-                  </div>
-
-                  <h2 className='calendarHeading'>
-                    {`${
-                      months[state.calendarMonth.getMonth()]
-                    } ${state.calendarMonth.getFullYear()}`}
-                  </h2>
-                  <div className='arrowContainer'>
-                    <img
-                      src={Arrow}
-                      alt='Next Month'
-                      className='arrow nextArrow'
-                      onClick={handleNextArrowClick}
-                    />
-                  </div>
-                </div>
-              </th>
-            </tr>
-            <tr>
-              {weekDays.map((day) => (
-                <th key={day}>
-                  <div className={`dayHeading ${day}`}>{day}</div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className='tableBoday'>
-            {Array(weeksInCurrentMonth)
-              .fill(null)
-              .map((week, idx) => (
-                <CalendarWeek
-                  key={`${state.calendarMonth.getMonth()}${state.calendarMonth.getFullYear()}${idx}`}
-                  days={days}
-                  week={idx}
+    <div className='calendarContainer'>
+      <table id='calendar'>
+        <thead>
+          <tr>
+            <th colSpan={7}>
+              {showConfetti && (
+                <Confetti onComplete={() => setShowConfetti(false)} />
+              )}
+              {state.selectedDay && (
+                <Modal
+                  selectedDay={state.selectedDay}
+                  dayData={state.dayData ? state.dayData : undefined}
+                  showConfetti={() => setShowConfetti(true)}
                 />
-              ))}
-          </tbody>
-        </table>
-      </div>
+              )}
+              <div className='headingContainer'>
+                <div className='arrowContainer'>
+                  <img
+                    src={Arrow}
+                    alt='Previous Month'
+                    className='arrow previousArrow'
+                    onClick={handlePreviousArrowClick}
+                  />
+                </div>
+
+                <h2 className='calendarHeading'>
+                  {`${
+                    months[state.calendarMonth.getMonth()]
+                  } ${state.calendarMonth.getFullYear()}`}
+                </h2>
+                <div className='arrowContainer'>
+                  <img
+                    src={Arrow}
+                    alt='Next Month'
+                    className='arrow nextArrow'
+                    onClick={handleNextArrowClick}
+                  />
+                </div>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            {weekDays.map((day) => (
+              <th key={day}>
+                <div className={`dayHeading ${day}`}>{day}</div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className='tableBoday'>
+          {Array(weeksInCurrentMonth)
+            .fill(null)
+            .map((week, idx) => (
+              <CalendarWeek
+                key={`${state.calendarMonth.getMonth()}${state.calendarMonth.getFullYear()}${idx}`}
+                days={days}
+                week={idx}
+              />
+            ))}
+        </tbody>
+      </table>
+    </div>
   )
 }

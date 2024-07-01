@@ -3,7 +3,7 @@ import './settings.css'
 // React Router
 import { useNavigate } from 'react-router-dom'
 // React
-import { useEffect, useContext } from 'react'
+import { useContext } from 'react'
 // Utils
 import { calendarServer } from '../../utils/calendarServer'
 import dayjs from 'dayjs'
@@ -35,6 +35,10 @@ const Settings = () => {
         type: 'app/changeSettingValues',
         payload: { inputName: target.name, value: target.value },
       })
+      calendarServer.updateCalendarSettings({
+        ...state.settings,
+        [target.name]: target.value,
+      })
     } else {
       console.error(`No input with the name '${target.name}'`)
     }
@@ -45,15 +49,15 @@ const Settings = () => {
       type: 'app/changeSettingValues',
       payload: { inputName: 'programStart', value: event.valueOf() },
     })
+    calendarServer.updateCalendarSettings({
+      ...state.settings,
+      programStart: event.valueOf(),
+    })
   }
 
   const handleSaveButtonClick = () => {
     navigate('/main')
   }
-
-  useEffect(() => {
-    calendarServer.updateCalendarSettings(state.settings)
-  }, [state.settings])
 
   return (
     <Box sx={{ width: '250px' }}>
@@ -63,7 +67,6 @@ const Settings = () => {
           <DatePicker
             sx={{ width: '100%' }}
             label='Program Start'
-            name='test'
             value={
               state.settings.programStart === undefined
                 ? null

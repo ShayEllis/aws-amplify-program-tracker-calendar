@@ -1,20 +1,14 @@
 // React
-import { useMemo } from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 // Components
 import { CalendarDay } from '../calendarDay/calendarDay'
 // Utils
-import { getDayIdentifier } from '../../../utils/utils'
+import { getDayIdentifier, calcDaysInWeek } from '../../../utils/utils'
 
-export const CalendarWeek = ({ days, week }) => {
+export const CalendarWeek = memo(function CalendarWeek({ days, week }) {
   // Create an array of days in this specific week
-  const daysInWeek = useMemo(() => {
-    const dayArray = []
-    for (let i = week * 7; i < week * 7 + 7; i++) {
-      dayArray.push(days[i])
-    }
-    return dayArray
-  }, [week, days])
+  const daysInWeek = calcDaysInWeek(days, week)
 
   return (
     <tr>
@@ -23,7 +17,7 @@ export const CalendarWeek = ({ days, week }) => {
       })}
     </tr>
   )
-}
+})
 
 CalendarWeek.propTypes = {
   days: PropTypes.array.isRequired,
