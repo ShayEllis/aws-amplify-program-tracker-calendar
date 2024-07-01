@@ -56,7 +56,7 @@ export const CalendarData = ({ date, dayData, programPhase }) => {
         Math.min(Object.values(dayData).filter((inputVal) => inputVal === true).length, inputsTrueGoal)
       )
     }
-  }, [dayData])
+  }, [dayData, inputsTrueGoal])
 
   return (
     <div
