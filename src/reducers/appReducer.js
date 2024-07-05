@@ -25,6 +25,12 @@ export const reducer = (state, action) => {
         settings: { ...state.settings, username: action.payload },
       }
     }
+    case 'app/setPreferredUsername': {
+      return {
+        ...state,
+        settings: { ...state.settings, preferredUsername: action.payload },
+      }
+    }
     case 'app/setDefaultCalendarSettings': {
       const defaultSettings = {
         programStart: null,

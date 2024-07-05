@@ -19,7 +19,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 
-const Navbar = memo(function Navbar({ signOut, username }) {
+const Navbar = memo(function Navbar({ signOut, preferredUsername }) {
   const [anchorElement, setAnchorElement] = useState(null)
   const tooltipOpen = Boolean(anchorElement)
   const navigate = useNavigate()
@@ -56,7 +56,7 @@ const Navbar = memo(function Navbar({ signOut, username }) {
             aria-haspopup='true'
             onClick={handleSettingsClick}>
             <Avatar sx={{ width: 32, height: 32, bgcolor: '#4E6E58' }}>
-              {username && username[0]}
+              {preferredUsername && preferredUsername[0]}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -88,7 +88,7 @@ const Navbar = memo(function Navbar({ signOut, username }) {
 
 Navbar.propTypes = {
   signOut: PropTypes.func.isRequired,
-  username: PropTypes.string,
+  preferredUsername: PropTypes.string,
 }
 
 export { Navbar }

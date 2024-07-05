@@ -2,7 +2,7 @@
 import { fetchUserAttributes } from 'aws-amplify/auth'
 
 export const calendarAuth = {
-  async fetchUsername() {
+  async fetchPreferredUsername() {
     try {
       const response = await fetchUserAttributes()
       if (!response) throw new Error('Failed to get username')

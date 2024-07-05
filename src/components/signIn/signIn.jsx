@@ -5,11 +5,7 @@ import '@aws-amplify/ui-react/styles.css'
 import { Outlet } from 'react-router-dom'
 
 const SignIn = () => {
-  return (
-    <Authenticator>
-      {({ signOut }) => <Outlet context={signOut} />}
-    </Authenticator>
-  )
+  return <Authenticator>{(auth) => <Outlet context={auth} />}</Authenticator>
 }
 
 export { SignIn }

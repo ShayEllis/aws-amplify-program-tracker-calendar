@@ -21,15 +21,13 @@ import Typography from '@mui/material/Typography'
 import { calendarServer } from './utils/calendarServer'
 import { calendarAuth } from './utils/calendarAuth'
 
-
-
 function App() {
   // Manages all calendar state
   const [state, dispatch] = useReducer(reducer, initialState)
   // Spinner displays when data is being fetched from the server
   const [fetchingData, setFetchingData] = useState(true)
   // SignOut function passed from AWS Authenticator
-  const signOut = useOutletContext()
+  const auth = useOutletContext()
 
   useEffect(() => {
     // Fetch exsisting data from the server
@@ -40,8 +38,14 @@ function App() {
       }
 
       // Get current username
-      calendarAuth.fetchUsername().then((username) => {
-        if (username) dispatch({ type: 'app/setUsername', payload: username })
+      calendarAuth.fetchPreferredUsername().then((preferredUsername) => {
+        if (preferredUsername) {
+          dispatch({
+            type: 'app/setPreferredUsername',
+            payload: preferredUsername,
+          })
+          dispatch({ type: 'app/setUsername', payload: auth.user.username })
+        }
       })
     })
   }, [])
@@ -49,46 +53,52 @@ function App() {
   useEffect(() => {
     if (state.settings.username) {
       // Check for existing calendar settings and set defaults if undefined
-      calendarServer.fetchCalendarSettings(state.settings.username).then((response) => {
-        if (response) {
-          dispatch({ type: 'app/loadCalendarSettings', payload: response })
-        } else {
-          dispatch({ type: 'app/setDefaultCalendarSettings' })
-          calendarServer.createCalendarSettings(state.settings)
-        }
-      })
+      calendarServer
+        .fetchCalendarSettings(state.settings.username)
+        .then((response) => {
+          console.log(response)
+          if (response) {
+            dispatch({ type: 'app/loadCalendarSettings', payload: response })
+          } else {
+            dispatch({ type: 'app/setDefaultCalendarSettings' })
+            calendarServer.createCalendarSettings(state.settings)
+          }
+        })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.settings.username])
 
   return (
     <CalendarContext.Provider value={state}>
       <CalendarDispatchContext.Provider value={dispatch}>
-          {fetchingData && (
-            <Backdrop
+        {fetchingData && (
+          <Backdrop
+            sx={{
+              color: '#AFB3F7',
+              zIndex: (theme) => theme.zIndex.drawer + 1,
+            }}
+            open={true}>
+            <CircularProgress color='inherit' size={85} thickness={2} />
+            <Box
               sx={{
-                color: '#AFB3F7',
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-              }}
-              open={true}>
-              <CircularProgress color='inherit' size={85} thickness={2} />
-              <Box
-                sx={{
-                  position: 'absolute',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Typography variant='caption' component='div' color='inherit'>
-                  Loading...
-                </Typography>
-              </Box>
-            </Backdrop>
-          )}
-          <div className='bodyContainer'>
-            <Navbar signOut={signOut} username={state.settings.username} />
-            <Outlet />
-          </div>
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Typography variant='caption' component='div' color='inherit'>
+                Loading...
+              </Typography>
+            </Box>
+          </Backdrop>
+        )}
+        <div className='bodyContainer'>
+          <Navbar
+            signOut={auth.signOut}
+            preferredUsername={state.settings.preferredUsername}
+          />
+          <Outlet />
+        </div>
       </CalendarDispatchContext.Provider>
     </CalendarContext.Provider>
   )
