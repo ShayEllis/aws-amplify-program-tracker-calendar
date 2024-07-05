@@ -61,8 +61,6 @@ export const calendarServer = {
     }
   },
   async createCalendarSettings(settingsData) {
-    console.log(settingsData)
-
     try {
       const { data: calendarSettings, errors } =
         await client.models.CalendarSettings.create(settingsData)
