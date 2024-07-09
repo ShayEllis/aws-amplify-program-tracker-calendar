@@ -1,5 +1,5 @@
 // React
-import { memo, useMemo, useState, useEffect, useRef } from 'react'
+import { memo, useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 // Styles
 import './stats.css'
@@ -14,12 +14,18 @@ export const Stats = memo(function Stats({
   dayData,
   todaysDate,
   programLength,
+  programStart,
+  programPhase,
+  programType,
 }) {
   const [hideChart, setHideChart] = useState(false)
   const [chartHeight, setChartHeight] = useState()
-  const currentStreak = useMemo(
-    () => getCurrentStreak(dayData, todaysDate),
-    [dayData, todaysDate]
+  const currentStreak = getCurrentStreak(
+    dayData,
+    todaysDate,
+    programStart,
+    programPhase,
+    programType
   )
   const chartContainerRef = useRef()
 
@@ -60,10 +66,9 @@ export const Stats = memo(function Stats({
             ? { transform: 'scale(0)', marginBottom: `-${chartHeight}px` }
             : undefined
         }>
-        <ProgressChart
-          goal={programLength || 75}
-          currentStreak={currentStreak}
-        />
+        {programLength && (
+          <ProgressChart goal={programLength} currentStreak={currentStreak} />
+        )}
       </div>
     </div>
   )
@@ -73,4 +78,7 @@ Stats.propTypes = {
   dayData: PropTypes.object,
   todaysDate: PropTypes.object,
   programLength: PropTypes.number,
+  programStart: PropTypes.number,
+  programPhase: PropTypes.string,
+  programType: PropTypes.string,
 }

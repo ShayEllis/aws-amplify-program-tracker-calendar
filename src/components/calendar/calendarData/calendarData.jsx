@@ -16,6 +16,8 @@ import {
   coldShowerIcon,
   activeVisualizationIcon,
 } from '../../../assets/icons'
+// Utils
+import { calculateNumTrueInputs } from '../../../utils/utils'
 
 export const CalendarData = ({ date, dayData, programPhase }) => {
   // Create new opject and copy dayData defore destructuring, this prevents an error when dayData is undefined
@@ -52,11 +54,9 @@ export const CalendarData = ({ date, dayData, programPhase }) => {
   // Each time the state is changed for a checkbox recacluate how many are checked
   useEffect(() => {
     if (dayData !== undefined) {
-      setNumTrueInputs(
-        Math.min(Object.values(dayData).filter((inputVal) => inputVal === true).length, inputsTrueGoal)
-      )
+      setNumTrueInputs(calculateNumTrueInputs(dayData, programPhase))
     }
-  }, [dayData, inputsTrueGoal])
+  }, [dayData, programPhase])
 
   return (
     <div

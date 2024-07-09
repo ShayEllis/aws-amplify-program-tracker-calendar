@@ -56,7 +56,6 @@ function App() {
       calendarServer
         .fetchCalendarSettings(state.settings.username)
         .then((response) => {
-          console.log(response)
           if (response) {
             dispatch({ type: 'app/loadCalendarSettings', payload: response })
           } else {

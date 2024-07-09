@@ -1,14 +1,24 @@
 // React
-import { useRef, useEffect, useLayoutEffect } from 'react'
+import { memo, useRef, useEffect, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 // Chart Library
 import { Chart } from 'chart.js/auto'
 // Styles
 import './progressChart.css'
 
-export const ProgressChart = ({ goal, currentStreak }) => {
+export const ProgressChart = memo(function ProgressChart ({ goal, currentStreak }) {
   const canvasRef = useRef()
   const chartRef = useRef()
+
+  // Testing performance
+  const chartRenders = useRef(0)
+  if (
+    import.meta.env.DEV &&
+    import.meta.env.VITE_SHOW_RENDER_COUNTERS === 'true'
+  ) {
+    chartRenders.current = chartRenders.current + 1
+    console.log(`Chart rendered ${chartRenders.current} times.`)
+  }
 
   const chartData = [currentStreak, goal - currentStreak]
   const chartLables = [
@@ -70,7 +80,7 @@ export const ProgressChart = ({ goal, currentStreak }) => {
       <canvas ref={canvasRef}></canvas>
     </div>
   )
-}
+})
 
 ProgressChart.propTypes = {
   goal: PropTypes.number.isRequired,

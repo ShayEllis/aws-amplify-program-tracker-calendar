@@ -143,6 +143,9 @@ export const Calendar = () => {
         dayData={state.dayData}
         todaysDate={state.todaysDate}
         programLength={state.settings.programLength}
+        programStart={state.settings.programStart}
+        programPhase={state.settings.programPhase}
+        programType={state.settings.programType}
       />
     </>
   )

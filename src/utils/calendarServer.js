@@ -26,7 +26,10 @@ export const calendarServer = {
         await client.models.Calendar.list()
 
       if (errors) throw new Error(errors[0].message)
-      return calendarDayData
+      const filteredCalendarDayData = calendarDayData.map((dayData) =>
+        removeReadOnlyFields(dayData)
+      )
+      return filteredCalendarDayData
     } catch (e) {
       console.error(e)
     }
@@ -83,7 +86,7 @@ export const calendarServer = {
     }
   },
   async updateCalendarSettings(settingsData) {
-    const filteredSettingsData = removeReadOnlyFields(settingsData)
+    const filteredSettingsData = removeReadOnlyFields(settingsData, false)
 
     try {
       const { data: calendarSettings, errors } =
